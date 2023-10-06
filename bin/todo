@@ -1,0 +1,6 @@
+Kolla att längden stämmer (10 eller 12 siffror.) #
+Ta bort bindestreck. #
+Kolla att alla datum stämmer. Månad 99 finns ej. Kan även kolla skottår.
+Om ÅÅMMDDXXXX, kontrollera kontrollsiffran. Om ÅÅÅÅMMDDXXXX glöm inte att ta bort sekelsiffrorna innan kontroll av kontrollsiffran.
+Kolla om ÅÅMMDDXXXX eller ÅÅÅÅMMDDXXXX. Om ÅÅÅÅMMDDXXXX och innan 1 januari 1990 kolla födelseplats.
+Kolla även om flicka eller pojke.
