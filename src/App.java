@@ -58,6 +58,23 @@ public class App {
                 }
             default:
                 JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
+
+            // ChatGPT uträkning kontrollsiffra:
+            int sum = 0;
+            int[] vikt = {2, 1, 2, 1, 2, 1, 2, 1, 2, 1};
+
+            for (int i = 0; i < 10; i++) {
+                int num = Integer.parseInt(personnummer.substring(i, i + 1)) * vikt[i];
+                if (num > 9) {
+                    num = num % 10 + num / 10;
+                }
+                sum += num;
+            }
+
+            int kontrollsiffra = 10 - (sum % 10);
+            if (kontrollsiffra == 10) {
+                kontrollsiffra = 0;
+            }
         }
     }
 }
