@@ -23,24 +23,23 @@ public class App {
         int år = Integer.parseInt(personnummerString.substring(0, 5));
         System.out.println(personnummerString.substring(0, 4));
 
-        switch(personnummer.substring(2, 4)) {
-            case "04": case "06": case "09": case "11":
+        switch(Integer.parseInt(personnummer.substring(2, 4))) {
+            case 4: case 6: case 9: case 11:
                 if (Integer.parseInt(personnummer.substring(4, 6)) > 30) {
                     JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
-                } else {
-                    return;
                 }
-            case "01": case "03": case "05": case "07": case "08": case "10": case "12":
+                break;
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
                 if (Integer.parseInt(personnummer.substring(4, 6)) > 31) {
-                    return;
+                    break;
                 }
-            case "02":
+            case 2:
                 switch (personnummerString.length()) {
                     case 12:
                         if (Integer.parseInt(personnummer.substring(4, 6)) == 29 && (år % 4 == 0 && år % 100 != 0) || (år % 400 == 0)) {
-                            return;
+                            break;
                         } else if (Integer.parseInt(personnummer.substring(4, 6)) <= 28) {
-                            return;
+                            break;
                         }   else {
                             JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
                         }
@@ -49,32 +48,35 @@ public class App {
                         System.out.println(årString);
                         år = Integer.parseInt(årString);
                         if (Integer.parseInt(personnummer.substring(4, 6)) == 29 && (år % 4 == 0 && år % 100 != 0) || (år % 400 == 0)) {
-                            return;
+                            break;
                         } else if (Integer.parseInt(personnummer.substring(4, 6)) <= 28) {
-                            return;
+                            break;
                         } else {
                             JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
                         }
                 }
-            default:
-                JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
+        }
 
-            // ChatGPT uträkning kontrollsiffra:
-            int sum = 0;
-            int[] vikt = {2, 1, 2, 1, 2, 1, 2, 1, 2, 1};
-
-            for (int i = 0; i < 10; i++) {
-                int num = Integer.parseInt(personnummer.substring(i, i + 1)) * vikt[i];
-                if (num > 9) {
-                    num = num % 10 + num / 10;
-                }
-                sum += num;
+        // Kod tagen från https://stackoverflow.com/questions/26383926/how-do-i-implement-the-luhn-algorithm, men med egna förklaringar för att förstå for loopar.
+        int sum = 0;
+        for (int i = 0; i < personnummer.length(); i++){ // Så länge i och personnummret är lika långa fortsätter loopen. Det läggs på ett nummer på i varje gång loopen körs.
+            char tmp = personnummer.charAt(i); // tmp blir den i:e siffran i personnumret.
+            int num = tmp - '0'; // Omvandlar tmp till en int som heter num.
+            int product;
+            if (i % 2 != 0) { // Om i är ett jämnt tal delas num med ett.
+                product = num * 1;
+            } else {  // Om i är ett udda tal delas num med två.
+            product = num * 2;
             }
-
-            int kontrollsiffra = 10 - (sum % 10);
-            if (kontrollsiffra == 10) {
-                kontrollsiffra = 0;
+            if (product > 9)
+                product -= 9;
+                sum += product;              
             }
+            boolean valid = (sum % 10 == 0);
+            if (valid){
+                System.out.print("Valid!\r");
+            } else {
+            System.out.print("Invalid!");
         }
     }
 }
