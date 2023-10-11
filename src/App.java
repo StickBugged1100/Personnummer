@@ -6,7 +6,6 @@ public class App {
         String personnummerString = JOptionPane.showInputDialog(null, "Skriv ditt personnummer i ett av följande format:\nÅÅÅÅMMDDXXXX, ÅÅÅÅMMDD-XXXX,\n eller ÅÅMMDDXXXX (Programmet antar att du är född under 2000-talet.)", "Personnummer", 3);
         
         String helapersonnumret = personnummerString;
-        System.out.println(helapersonnumret);
 
         personnummerString = personnummerString.trim();
         personnummerString = personnummerString.replace("-", "");
@@ -17,7 +16,6 @@ public class App {
         int fullyear = currentYear.getValue();
         String fullyearString = fullyear + "";
         int year = Integer.parseInt(fullyearString.substring(2, 4));
-        System.out.println(year);
 
         String personnummer = "";
         if (personnummerString.length() == 10) {
@@ -31,12 +29,7 @@ public class App {
 
         String sekel = "20";
 
-        System.out.println(personnummer);
-        System.out.println(personnummer.substring(2, 4));
-        System.out.println(personnummer.substring(4, 6));
-
         if (helapersonnumret.length() == 11) {
-            System.out.println(helapersonnumret.charAt(6));
             if (helapersonnumret.charAt(6) == '+' && Integer.parseInt(personnummer.substring(0, 2)) < year) {
                 sekel = "19";
             } else if (helapersonnumret.charAt(6) == '+' && Integer.parseInt(personnummer.substring(0, 2)) > year) {
@@ -50,7 +43,6 @@ public class App {
                 korrekt = false;
             }
         } else if (helapersonnumret.length() == 13) {
-            System.out.println(helapersonnumret.charAt(8));
             if (helapersonnumret.charAt(8) == '+' && Integer.parseInt(personnummer.substring(2, 4)) < year) {
                 sekel = "19";
             } else if (helapersonnumret.charAt(8) == '+' && Integer.parseInt(personnummer.substring(2, 4)) > year) {
@@ -65,10 +57,7 @@ public class App {
             }
         }
 
-        System.out.println(sekel + " sekel");
-
         int år = Integer.parseInt(personnummerString.substring(0, 5));
-        System.out.println(personnummerString.substring(0, 4));
 
         switch(Integer.parseInt(personnummer.substring(2, 4))) {
             case 4: case 6: case 9: case 11:
@@ -96,7 +85,6 @@ public class App {
                         }
                     case 10:
                         String årString = sekel + personnummerString.substring(0, 2);
-                        System.out.println(årString);
                         år = Integer.parseInt(årString);
                         if (Integer.parseInt(personnummer.substring(4, 6)) == 29 && (år % 4 == 0 && år % 100 != 0) || (år % 400 == 0)) {
                             break;
@@ -127,7 +115,8 @@ public class App {
 
         boolean valid = (sum % 10 == 0);
         if (!valid){
-            JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0); 
+            JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
+            korrekt = false;
         }
         
         String kön = "";
