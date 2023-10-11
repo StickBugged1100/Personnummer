@@ -1,13 +1,23 @@
 import javax.swing.JOptionPane;
+import java.time.Year;
 
 public class App {
     public static void main(String[] args) throws Exception {
         String personnummerString = JOptionPane.showInputDialog(null, "Skriv ditt personnummer i ett av följande format:\nÅÅÅÅMMDDXXXX, ÅÅÅÅMMDD-XXXX,\n eller ÅÅMMDDXXXX (Programmet antar att du är född under 2000-talet.)", "Personnummer", 3);
         
+        String helapersonnumret = personnummerString;
+        System.out.println(helapersonnumret);
+
         personnummerString = personnummerString.trim();
         personnummerString = personnummerString.replace("-", "");
+        personnummerString = personnummerString.replace("+", "");
 
-       boolean korrekt = true;
+        boolean korrekt = true;
+        Year currentYear = Year.now();
+        int fullyear = currentYear.getValue();
+        String fullyearString = fullyear + "";
+        int year = Integer.parseInt(fullyearString.substring(2, 4));
+        System.out.println(year);
 
         String personnummer = "";
         if (personnummerString.length() == 10) {
@@ -19,9 +29,43 @@ public class App {
             korrekt = false;
         }
 
+        String sekel = "20";
+
         System.out.println(personnummer);
         System.out.println(personnummer.substring(2, 4));
         System.out.println(personnummer.substring(4, 6));
+
+        if (helapersonnumret.length() == 11) {
+            System.out.println(helapersonnumret.charAt(6));
+            if (helapersonnumret.charAt(6) == '+' && Integer.parseInt(personnummer.substring(0, 2)) < year) {
+                sekel = "19";
+            } else if (helapersonnumret.charAt(6) == '+' && Integer.parseInt(personnummer.substring(0, 2)) > year) {
+                sekel = "18";
+            } else if (helapersonnumret.charAt(6) == '-' && Integer.parseInt(personnummer.substring(0, 2)) > year) {
+                sekel = "19";
+            } else if (helapersonnumret.charAt(6) == '-' && Integer.parseInt(personnummer.substring(0, 2)) <= year) {
+                sekel = "20";
+            } else {
+                JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
+                korrekt = false;
+            }
+        } else if (helapersonnumret.length() == 13) {
+            System.out.println(helapersonnumret.charAt(8));
+            if (helapersonnumret.charAt(8) == '+' && Integer.parseInt(personnummer.substring(2, 4)) < year) {
+                sekel = "19";
+            } else if (helapersonnumret.charAt(8) == '+' && Integer.parseInt(personnummer.substring(2, 4)) > year) {
+                sekel = "18";
+            } else if (helapersonnumret.charAt(8) == '-' && Integer.parseInt(personnummer.substring(2, 4)) > year) {
+                sekel = "19";
+            } else if (helapersonnumret.charAt(8) == '-' && Integer.parseInt(personnummer.substring(2, 4)) <= year) {
+                sekel = "20";
+            } else {
+                JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
+                korrekt = false;
+            }
+        }
+
+        System.out.println(sekel + " sekel");
 
         int år = Integer.parseInt(personnummerString.substring(0, 5));
         System.out.println(personnummerString.substring(0, 4));
@@ -51,7 +95,7 @@ public class App {
                             korrekt = false;
                         }
                     case 10:
-                        String årString = "19" + personnummerString.substring(0, 2);
+                        String årString = sekel + personnummerString.substring(0, 2);
                         System.out.println(årString);
                         år = Integer.parseInt(årString);
                         if (Integer.parseInt(personnummer.substring(4, 6)) == 29 && (år % 4 == 0 && år % 100 != 0) || (år % 400 == 0)) {
@@ -95,7 +139,7 @@ public class App {
         }
 
         if (korrekt) {
-            JOptionPane.showMessageDialog(null, "Du skrev in personnumret " + personnummerString + ", som är giltigt och tillhör en " + kön + ".");
+            JOptionPane.showMessageDialog(null, "Du skrev in personnumret " + helapersonnumret + ", som är giltigt och tillhör en " + kön + ".");
         }
     }
 }
