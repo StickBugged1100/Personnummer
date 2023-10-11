@@ -7,6 +7,8 @@ public class App {
         personnummerString = personnummerString.trim();
         personnummerString = personnummerString.replace("-", "");
 
+       boolean korrekt = true;
+
         String personnummer = "";
         if (personnummerString.length() == 10) {
             personnummer = personnummerString;
@@ -14,6 +16,7 @@ public class App {
             personnummer = personnummerString.substring(2);
         } else {
             JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
+            korrekt = false;
         }
 
         System.out.println(personnummer);
@@ -27,12 +30,15 @@ public class App {
             case 4: case 6: case 9: case 11:
                 if (Integer.parseInt(personnummer.substring(4, 6)) > 30) {
                     JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
+                    korrekt = false;
                 }
                 break;
             case 1: case 3: case 5: case 7: case 8: case 10: case 12:
                 if (Integer.parseInt(personnummer.substring(4, 6)) > 31) {
-                    break;
+                    JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
+                    korrekt = false;
                 }
+                break;
             case 2:
                 switch (personnummerString.length()) {
                     case 12:
@@ -42,9 +48,10 @@ public class App {
                             break;
                         }   else {
                             JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
+                            korrekt = false;
                         }
                     case 10:
-                        String årString = "20" + personnummerString.substring(0, 2);
+                        String årString = "19" + personnummerString.substring(0, 2);
                         System.out.println(årString);
                         år = Integer.parseInt(årString);
                         if (Integer.parseInt(personnummer.substring(4, 6)) == 29 && (år % 4 == 0 && år % 100 != 0) || (år % 400 == 0)) {
@@ -53,30 +60,42 @@ public class App {
                             break;
                         } else {
                             JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
+                            korrekt = false;
                         }
                 }
         }
 
-        // Kod tagen från https://stackoverflow.com/questions/26383926/how-do-i-implement-the-luhn-algorithm, men med egna förklaringar för att förstå for loopar.
+        // Kod tagen från https://stackoverflow.com/questions/26383926/how-do-i-implement-the-luhn-algorithm, men med egna förklaringar för att förstå for loopar, och vissa ändringar.
         int sum = 0;
         for (int i = 0; i < personnummer.length(); i++){ // Så länge i och personnummret är lika långa fortsätter loopen. Det läggs på ett nummer på i varje gång loopen körs.
             char tmp = personnummer.charAt(i); // tmp blir den i:e siffran i personnumret.
             int num = tmp - '0'; // Omvandlar tmp till en int som heter num.
             int product;
-            if (i % 2 != 0) { // Om i är ett jämnt tal delas num med ett.
+            if (i % 2 != 0) { // Om i är ett udda tal multipliceras num med ett.
                 product = num * 1;
-            } else {  // Om i är ett udda tal delas num med två.
+            } else {  // Om i är ett jämt tal multipliceras num med två.
             product = num * 2;
             }
-            if (product > 9)
+            if (product > 9) // Verkar behandla tal över 10 på ett sätt jag tyvärr inte förstår.
                 product -= 9;
-                sum += product;              
-            }
-            boolean valid = (sum % 10 == 0);
-            if (valid){
-                System.out.print("Valid!\r");
-            } else {
-            System.out.print("Invalid!");
+                sum += product;
+        }
+
+        boolean valid = (sum % 10 == 0);
+        if (!valid){
+            JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0); 
+        }
+        
+        String kön = "";
+
+        if (Integer.parseInt(personnummer.substring(7, 8)) % 2 != 0) {
+            kön = "man";
+        } else {
+            kön = "kvinna";
+        }
+
+        if (korrekt) {
+            JOptionPane.showMessageDialog(null, "Du skrev in personnumret " + personnummerString + ", som är giltigt och tillhör en " + kön + ".");
         }
     }
 }
