@@ -5,13 +5,15 @@ public class App {
     public static void main(String[] args) throws Exception {
         String personnummerString = JOptionPane.showInputDialog(null, "Skriv ditt personnummer i ett av följande format:\nÅÅÅÅMMDDXXXX, ÅÅÅÅMMDD-XXXX,\n eller ÅÅMMDDXXXX (Programmet antar att du är född under 2000-talet.)", "Personnummer", 3);
         
+        personnummerString = personnummerString.trim();
+
         String helapersonnumret = personnummerString;
 
-        personnummerString = personnummerString.trim();
         personnummerString = personnummerString.replace("-", "");
         personnummerString = personnummerString.replace("+", "");
 
         boolean korrekt = true;
+
         Year currentYear = Year.now();
         int fullyear = currentYear.getValue();
         String fullyearString = fullyear + "";
@@ -121,11 +123,13 @@ public class App {
         
         String kön = "";
 
-        if (Integer.parseInt(personnummer.substring(7, 8)) % 2 != 0) {
+        if (Integer.parseInt(personnummer.substring(8, 9)) % 2 != 0) {
             kön = "man";
         } else {
             kön = "kvinna";
         }
+
+        System.out.println(personnummer.substring(8, 9));
 
         if (korrekt) {
             JOptionPane.showMessageDialog(null, "Du skrev in personnumret " + helapersonnumret + ", som är giltigt och tillhör en " + kön + ".");
