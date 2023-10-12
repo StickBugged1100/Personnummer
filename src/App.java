@@ -14,6 +14,14 @@ public class App {
 
         boolean korrekt = true;
 
+        try {
+            Long.parseLong(personnummerString);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Felaktigt personnummer.", "Fel", 0);
+            korrekt = false;
+            System.exit(1);
+        }
+
         Year currentYear = Year.now();
         int fullyear = currentYear.getValue();
         String fullyearString = fullyear + "";
