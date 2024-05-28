@@ -1,2 +1,1 @@
-Skolarbete Programmering 1.
-Använd och skriv om om så önskas.
+tar ett svenskt personnummer och skriver ut den information man kan få från numret.
